@@ -1,4 +1,5 @@
 # gi: interactive shell for git
+Currently, this repository is under development.
 
 ## Install
 
@@ -7,7 +8,6 @@ cargo install gi
 ```
 
 ## Usage
-
 ```bash
 gi switch
 ```
@@ -21,3 +21,4 @@ then interactive shell is shown as below.
   origin/main
 [↑↓ to move, enter to select, type to filter]
 ```
+You can check the full command list with `gi --help`.
