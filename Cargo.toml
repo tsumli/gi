@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 description = "git interactive cli tool"
 license-file = "LICENSE"
+repository = "https://github.com/tsumli/gi"
 
 [dependencies]
 clap = { version = "4.5.15", features = ["derive"] }
