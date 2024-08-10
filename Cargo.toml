@@ -2,6 +2,8 @@
 name = "gi"
 version = "0.1.0"
 edition = "2021"
+description = "git interactive cli tool"
+license-file = "LICENSE"
 
 [dependencies]
 clap = { version = "4.5.15", features = ["derive"] }
