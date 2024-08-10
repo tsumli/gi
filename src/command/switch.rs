@@ -17,10 +17,12 @@ fn switch_branch(repo: &git2::Repository, branch: &str) -> Result<(), Box<dyn st
 
 pub fn switch() -> Result<(), Box<dyn std::error::Error>> {
     let repo = git2::Repository::open(".").unwrap();
-    let branches_string = get_branch_names_from_repository(&repo).expect("Failed to get branches");
+    let branches_string =
+        get_branch_names_from_repository(&repo, true).expect("Failed to get branches");
     let branches_str: Vec<&str> = branches_string.iter().map(AsRef::as_ref).collect();
     let branch_to_switch =
-        crate::ui::single_select_from_options("Select a branch to switch to", &branches_str);
+        crate::ui::single_select_from_options("Select a branch to switch to", &branches_str)
+            .expect("Failed to get branch");
     switch_branch(&repo, &branch_to_switch)
         .expect(&format!("Failed to switch branch: {}", branch_to_switch));
     Ok(())

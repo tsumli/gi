@@ -39,13 +39,19 @@ pub fn add() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
+    if files.is_empty() {
+        println!("No files to add");
+        return Ok(());
+    }
+
     // Sort with filename
     files.sort();
 
     let files_to_add = crate::ui::multi_select_from_options(
         "Select files to add",
         &files.iter().map(String::as_str).collect::<Vec<_>>(),
-    );
+    )
+    .expect("Failed to get files to add");
 
     let mut index = repo.index().expect("Failed to get index");
 
