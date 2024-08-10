@@ -22,3 +22,9 @@ then interactive shell is shown as below.
 [↑↓ to move, enter to select, type to filter]
 ```
 You can check the full command list with `gi --help`.
+
+## Docker
+To build docker container, use
+```
+source ./docker/build.sh
+```
