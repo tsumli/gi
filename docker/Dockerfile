@@ -12,8 +12,8 @@ RUN apt install -y \
 # modify permission
 ARG USER
 ARG GROUP=${USER}
-ARG UID=1001
-ARG GID=1001
+ARG UID=1000
+ARG GID=1000
 # Check if the group exists before creating it
 RUN getent group ${GID} || groupadd -g ${GID} ${GROUP}
 # Create the user 
@@ -30,7 +30,7 @@ RUN echo "$USER:$GID" | chpasswd && \
 
 RUN apt install -y sudo 
 USER ${USER}
-ENV HOME /home/${USER}
+ENV HOME=/home/${USER}
 
 # install rust
 RUN curl https://sh.rustup.rs | sh -s -- --default-toolchain nightly -y
