@@ -1,5 +1,5 @@
+use anyhow::Result;
 use clap::{Parser, Subcommand};
-use std::error::Error;
 
 /// git command with interactive shell
 #[derive(Parser, Debug)]
@@ -20,12 +20,12 @@ enum Commands {
     Add,
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> Result<()> {
     let args = Args::parse();
     match &args.command {
-        Commands::Delete {} => gi::command::delete::delete().expect("Failed to delete branch"),
-        Commands::Switch {} => gi::command::switch::switch().expect("Failed to switch branch"),
-        Commands::Add {} => gi::command::add::add().expect("Failed to add files"),
+        Commands::Delete {} => gi::command::delete::delete()?,
+        Commands::Switch {} => gi::command::switch::switch()?,
+        Commands::Add {} => gi::command::add::add()?,
     }
     Ok(())
 }

@@ -10,9 +10,7 @@ pub fn get_branch_names_from_repository(
         Some(BranchType::Local)
     };
 
-    let branches = repo
-        .branches(branch_filter)
-        .expect("Failed to get branches");
+    let branches = repo.branches(branch_filter)?;
     let mut branches_string: Vec<String> = Vec::new();
     for branch in branches {
         let (branch, _) = branch?;
