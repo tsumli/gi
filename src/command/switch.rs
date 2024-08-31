@@ -2,7 +2,7 @@ use crate::command::branch::get_branch_names_from_repository;
 use anyhow::Result;
 
 fn switch_branch(repo: &git2::Repository, branch: &str) -> Result<()> {
-    let (object, reference) = repo.revparse_ext(&branch).expect("Object not found");
+    let (object, reference) = repo.revparse_ext(&branch)?;
     repo.checkout_tree(&object, None)?;
 
     match reference {
@@ -15,7 +15,7 @@ fn switch_branch(repo: &git2::Repository, branch: &str) -> Result<()> {
 }
 
 pub fn switch() -> Result<()> {
-    let repo = git2::Repository::open(".").unwrap();
+    let repo = git2::Repository::open(".")?;
     let branches_string = get_branch_names_from_repository(&repo, true)?;
     let branches_str: Vec<&str> = branches_string.iter().map(AsRef::as_ref).collect();
     let branch_to_switch =
