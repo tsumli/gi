@@ -26,7 +26,7 @@ mod tests {
     use super::*;
     #[test]
     fn test_get_branch_names_from_repository() {
-        let repo = Repository::open(".").unwrap();
+        let repo = crate::command::repo_utils::get_repo_root_recursive(5).unwrap();
         let branches = get_branch_names_from_repository(&repo, false);
         assert!(branches.as_ref().unwrap().contains(&"main".to_string()));
     }

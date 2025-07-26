@@ -1,7 +1,7 @@
 use anyhow::{Context, Result};
 
 pub fn add() -> Result<()> {
-    let repo = git2::Repository::open(".").unwrap();
+    let repo = crate::command::repo_utils::get_repo_root_recursive(5)?;
 
     // Get the list of files that are not staged
     let mut files: Vec<String> = Vec::new();

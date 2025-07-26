@@ -8,7 +8,7 @@ fn delete_branch(repo: &git2::Repository, branch: &str) -> Result<()> {
 }
 
 pub fn delete() -> Result<()> {
-    let repo = git2::Repository::open(".")?;
+    let repo = crate::command::repo_utils::get_repo_root_recursive(5)?;
     let branches_string = get_branch_names_from_repository(&repo, false)?;
     let branches_str: Vec<&str> = branches_string.iter().map(AsRef::as_ref).collect();
     let branch_to_delete =
