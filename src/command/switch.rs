@@ -1,25 +1,25 @@
-use crate::command::branch::get_branch_names_from_repository;
-use anyhow::Result;
+use crate::command::Command;
+use crate::error::{GiError, Result};
+use crate::repo::GitRepo;
+use crate::ui;
 
-fn switch_branch(repo: &git2::Repository, branch: &str) -> Result<()> {
-    let (object, reference) = repo.revparse_ext(&branch)?;
-    repo.checkout_tree(&object, None)?;
+/// Switch to a different branch.
+pub struct Switch;
 
-    match reference {
-        // gref is an actual reference like branches or tags
-        Some(gref) => repo.set_head(gref.name().unwrap()),
-        // this is a commit, not a reference
-        None => repo.set_head_detached(object.id()),
-    }?;
-    Ok(())
-}
+impl Command for Switch {
+    fn execute(repo: &GitRepo) -> Result<()> {
+        let branches = repo.branch_names(true)?;
 
-pub fn switch() -> Result<()> {
-    let repo = crate::command::repo_utils::get_repo_root_recursive(5)?;
-    let branches_string = get_branch_names_from_repository(&repo, true)?;
-    let branches_str: Vec<&str> = branches_string.iter().map(AsRef::as_ref).collect();
-    let branch_to_switch =
-        crate::ui::single_select_from_options("Select a branch to switch to", &branches_str)?;
-    switch_branch(&repo, &branch_to_switch)?;
-    Ok(())
+        if branches.is_empty() {
+            return Err(GiError::Empty {
+                context: "No branches available",
+            });
+        }
+
+        let selected = ui::select("Select a branch to switch to", &branches)?;
+        repo.switch_to(&selected)?;
+        println!("Switched to branch: {}", selected);
+
+        Ok(())
+    }
 }

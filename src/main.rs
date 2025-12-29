@@ -1,34 +1,39 @@
-use anyhow::Result;
 use clap::{Parser, Subcommand};
+use gi::{Add, Commit, Delete, Switch, run};
 
-/// git command with interactive shell
+/// git interactive cli tool
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// subcommand to run
     #[command(subcommand)]
     command: Commands,
 }
 
 #[derive(Subcommand, Debug)]
 enum Commands {
-    /// Delete branches
+    /// Add files to staging area
+    #[command(visible_alias = "a")]
+    Add,
+    /// Commit staged changes
+    #[command(visible_alias = "c")]
+    Commit,
+    /// Delete local branches
     #[command(visible_alias = "d")]
     Delete,
     /// Switch to a branch
     #[command(visible_alias = "s")]
     Switch,
-    /// Add files
-    #[command(visible_alias = "a")]
-    Add,
 }
 
-fn main() -> Result<()> {
+fn main() -> anyhow::Result<()> {
     let args = Args::parse();
-    match &args.command {
-        Commands::Delete {} => gi::command::delete::delete()?,
-        Commands::Switch {} => gi::command::switch::switch()?,
-        Commands::Add {} => gi::command::add::add()?,
-    }
-    Ok(())
+
+    let result = match args.command {
+        Commands::Add => run::<Add>(),
+        Commands::Commit => run::<Commit>(),
+        Commands::Delete => run::<Delete>(),
+        Commands::Switch => run::<Switch>(),
+    };
+
+    result.map_err(Into::into)
 }
