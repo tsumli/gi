@@ -13,10 +13,13 @@ struct Args {
 #[derive(Subcommand, Debug)]
 enum Commands {
     /// Delete branches
+    #[command(visible_alias = "d")]
     Delete,
     /// Switch to a branch
+    #[command(visible_alias = "s")]
     Switch,
     /// Add files
+    #[command(visible_alias = "a")]
     Add,
 }
 

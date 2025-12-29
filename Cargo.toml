@@ -10,4 +10,4 @@ repository = "https://github.com/tsumli/gi"
 anyhow = "1.0.98"
 clap = { version = "4.5.41", features = ["derive"] }
 git2 = "0.20.2"
-inquire = "0.7.5"
+inquire = "0.9.1"
