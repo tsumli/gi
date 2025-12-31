@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use gi::{Add, Commit, Delete, Switch, run};
+use gi::{Add, Commit, Delete, GitRepo, Push, PushOptions, Switch, run};
 
 /// git interactive cli tool
 #[derive(Parser, Debug)]
@@ -20,6 +20,13 @@ enum Commands {
     /// Delete local branches
     #[command(visible_alias = "d")]
     Delete,
+    /// Push current branch to remote
+    #[command(visible_alias = "p")]
+    Push {
+        /// Force push (uses --force-with-lease --force-if-includes)
+        #[arg(short, long)]
+        force: bool,
+    },
     /// Switch to a branch
     #[command(visible_alias = "s")]
     Switch,
@@ -32,6 +39,10 @@ fn main() -> anyhow::Result<()> {
         Commands::Add => run::<Add>(),
         Commands::Commit => run::<Commit>(),
         Commands::Delete => run::<Delete>(),
+        Commands::Push { force } => {
+            let repo = GitRepo::discover(5)?;
+            Push::execute_with_options(&repo, PushOptions { force })
+        }
         Commands::Switch => run::<Switch>(),
     };
 

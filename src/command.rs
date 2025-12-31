@@ -1,6 +1,7 @@
 mod add;
 mod commit;
 mod delete;
+mod push;
 mod switch;
 
 use crate::error::Result;
@@ -24,4 +25,5 @@ pub fn run<C: Command>() -> Result<()> {
 pub use add::Add;
 pub use commit::Commit;
 pub use delete::Delete;
+pub use push::{Push, PushOptions};
 pub use switch::Switch;
