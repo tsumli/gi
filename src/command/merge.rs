@@ -51,6 +51,12 @@ impl Merge {
             &branches,
         )?;
 
+        // Fetch if it's a remote branch (contains '/')
+        if let Some((remote, branch)) = selected.split_once('/') {
+            println!("Fetching '{}'...", selected);
+            Self::run_git(workdir, &["fetch", remote, branch])?;
+        }
+
         // Build merge command
         let mut args = vec!["merge"];
 
