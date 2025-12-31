@@ -1,6 +1,6 @@
 [package]
 name = "gi"
-version = "0.1.6"
+version = "0.1.7"
 edition = "2024"
 description = "git interactive cli tool"
 license-file = "LICENSE"
