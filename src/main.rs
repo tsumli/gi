@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use gi::{Add, Commit, Delete, GitRepo, Merge, MergeOptions, Push, PushOptions, Switch, run};
+use gi::{Add, Commit, Delete, Fetch, GitRepo, Merge, MergeOptions, Push, PushOptions, Switch, run};
 
 /// git interactive cli tool
 #[derive(Parser, Debug)]
@@ -20,6 +20,9 @@ enum Commands {
     /// Delete local branches
     #[command(visible_alias = "d")]
     Delete,
+    /// Fetch all remotes with pruning
+    #[command(visible_alias = "f")]
+    Fetch,
     /// Merge a branch into current branch
     #[command(visible_alias = "m")]
     Merge {
@@ -49,6 +52,7 @@ fn main() -> anyhow::Result<()> {
         Commands::Add => run::<Add>(),
         Commands::Commit => run::<Commit>(),
         Commands::Delete => run::<Delete>(),
+        Commands::Fetch => run::<Fetch>(),
         Commands::Merge { no_ff, squash } => {
             let repo = GitRepo::discover(5)?;
             Merge::execute_with_options(&repo, MergeOptions { no_ff, squash })

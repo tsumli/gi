@@ -1,6 +1,7 @@
 mod add;
 mod commit;
 mod delete;
+mod fetch;
 mod merge;
 mod push;
 mod switch;
@@ -26,6 +27,7 @@ pub fn run<C: Command>() -> Result<()> {
 pub use add::Add;
 pub use commit::Commit;
 pub use delete::Delete;
+pub use fetch::Fetch;
 pub use merge::{Merge, MergeOptions};
 pub use push::{Push, PushOptions};
 pub use switch::Switch;
