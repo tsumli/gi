@@ -23,6 +23,12 @@ then interactive shell is shown as below.
 ```
 You can check the full command list with `gi --help`.
 
+You can also commit directly with a message:
+
+```bash
+gi c "commit message"
+```
+
 ## Docker
 To build docker container, use
 ```

@@ -1,5 +1,7 @@
 use clap::{Parser, Subcommand};
-use gi::{Add, Commit, Delete, Fetch, GitRepo, Merge, MergeOptions, Push, PushOptions, Switch, run};
+use gi::{
+    Add, Commit, Delete, Fetch, GitRepo, Merge, MergeOptions, Push, PushOptions, Switch, run,
+};
 
 /// git interactive cli tool
 #[derive(Parser, Debug)]
@@ -16,7 +18,11 @@ enum Commands {
     Add,
     /// Commit staged changes
     #[command(visible_alias = "c")]
-    Commit,
+    Commit {
+        /// Commit message. If omitted, prompts interactively.
+        #[arg(value_name = "MESSAGE")]
+        message: Option<String>,
+    },
     /// Delete local branches
     #[command(visible_alias = "d")]
     Delete,
@@ -50,7 +56,10 @@ fn main() -> anyhow::Result<()> {
 
     let result = match args.command {
         Commands::Add => run::<Add>(),
-        Commands::Commit => run::<Commit>(),
+        Commands::Commit { message } => {
+            let repo = GitRepo::discover(5)?;
+            Commit::execute_with_message(&repo, message)
+        }
         Commands::Delete => run::<Delete>(),
         Commands::Fetch => run::<Fetch>(),
         Commands::Merge { no_ff, squash } => {
